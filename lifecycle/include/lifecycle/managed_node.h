@@ -31,6 +31,9 @@ namespace ros { namespace lifecycle {
         public:
             ManagedNode(const ros::NodeHandle& nh);
             virtual ~ManagedNode(){};
+            ros::NodeHandle getBaseNode() { return nh_; }
+            const char* get_name() { return ros::this_node::getName().c_str(); }
+            std::string get_namespace() { return nh_.getNamespace(); }
         protected:
             /** Empty transition callbacks, default to return true (-> SUCCESS) */
             virtual bool onConfigure() { return true; };
