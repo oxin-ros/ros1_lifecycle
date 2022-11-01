@@ -27,14 +27,15 @@ namespace ros { namespace lifecycle {
          * Class which implements all the callbacks that are used by the Lifecycle as empty, and registers
          * them with a manager.
          */
-        class ManagedNode {
+    class ManagedNode : public std::enable_shared_from_this<ManagedNode> {
         public:
             ManagedNode(const ros::NodeHandle& nh);
             virtual ~ManagedNode(){};
             ros::NodeHandle getBaseNode() { return nh_; }
             const char* get_name() { return ros::this_node::getName().c_str(); }
             std::string get_namespace() { return nh_.getNamespace(); }
-        protected:
+
+    protected:
             /** Empty transition callbacks, default to return true (-> SUCCESS) */
             virtual bool onConfigure() { return true; };
             virtual bool onCleanup() { return false; };
