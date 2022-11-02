@@ -27,6 +27,8 @@ add_library(lifecycle
   src/${PROJECT_NAME}/lifecycle_model.cpp
   src/${PROJECT_NAME}/broadcaster.cpp
   src/${PROJECT_NAME}/client.cpp
+  src/${PROJECT_NAME}/lifecycle_publisher.cpp
+  src/${PROJECT_NAME}/lifecycle_subscriber.cpp
 )
 
 add_dependencies(lifecycle ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
