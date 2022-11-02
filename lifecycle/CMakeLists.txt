@@ -29,6 +29,7 @@ add_library(lifecycle
   src/${PROJECT_NAME}/client.cpp
   src/${PROJECT_NAME}/lifecycle_publisher.cpp
   src/${PROJECT_NAME}/lifecycle_subscriber.cpp
+  src/${PROJECT_NAME}/cascade_lifecycle_node.cpp
 )
 
 add_dependencies(lifecycle ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

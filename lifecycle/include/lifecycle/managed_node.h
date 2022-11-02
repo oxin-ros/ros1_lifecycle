@@ -35,6 +35,9 @@ namespace ros { namespace lifecycle {
             const char* get_name() { return ros::this_node::getName().c_str(); }
             std::string get_namespace() { return nh_.getNamespace(); }
             ros::Time now() { return ros::Time::now(); }
+
+      bool trigger_transition(ros::lifecycle::Transition _t);
+      
     protected:
             /** Empty transition callbacks, default to return true (-> SUCCESS) */
             virtual bool onConfigure() { return true; };

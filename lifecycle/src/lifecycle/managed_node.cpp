@@ -18,7 +18,9 @@
 
 #include "lifecycle/managed_node.h"
 
-namespace ros { namespace lifecycle {
+namespace ros {
+  namespace lifecycle {
+    
         ManagedNode::ManagedNode(const ros::NodeHandle& nh) : nh_(nh), lm_(nh) {
             lm_.setTransitionCallback(CONFIGURE, boost::bind(&ManagedNode::onConfigure, this));
             lm_.setTransitionCallback(ACTIVATE, boost::bind(&ManagedNode::onActivate, this));
@@ -29,4 +31,27 @@ namespace ros { namespace lifecycle {
             //start the action server
             lm_.start();
         }
-    }}
+    
+    bool ManagedNode::trigger_transition(ros::lifecycle::Transition _t)
+    {
+      switch(_t)
+      {
+      case(ros::lifecycle::CONFIGURE):
+	return lm_.configure();
+	break;
+      case(ros::lifecycle::DEACTIVATE):
+	return lm_.deactivate();
+	break;
+      case(ros::lifecycle::ACTIVATE):
+	return lm_.activate();
+	break;	
+       default:
+	return false;
+	break;
+      }
+
+      return false;
+    }
+
+  }
+}
