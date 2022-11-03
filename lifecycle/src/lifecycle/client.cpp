@@ -165,9 +165,21 @@ void LifecycleClient::cancel(){
     }
 }
 void LifecycleClient::stateCb(const lifecycle_msgs::Lifecycle& msg){
-    server_state_ = static_cast<State>(msg.end_state);
+  mux_.lock();
+  server_state_ = static_cast<State>(msg.end_state);
+  mux_.unlock();
 }
 
+State LifecycleClient::getState()
+{
+  State res;
+  mux_.lock();
+  res = server_state_;
+  mux_.unlock();
+
+  return res;
+}
+    
 void LifecycleClient::transition_completion_cb_(bool result){
     handle_.reset(); 
     completion_cb_(result);

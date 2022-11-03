@@ -115,14 +115,15 @@ namespace ros { namespace lifecycle {
             * param type: msg: Lifecycle
             ****************************************************************/
             void stateCb(const lifecycle_msgs::Lifecycle& msg);
-            
+
+	  State getState();
         protected:
             State server_state_;
             completionCb completion_cb_;
             LifecycleSubscriber state_sub_;
             boost::shared_ptr<LifecycleTransitionSequence> handle_;
             boost::shared_ptr<LifecycleActionClient> action_client_;
-            
+	  std::mutex mux_;
         private:
             Events events_;
             ros::NodeHandle nh_;
