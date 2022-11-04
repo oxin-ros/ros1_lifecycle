@@ -8,7 +8,8 @@ namespace ros
 
     CascadeLifecycleNode::CascadeLifecycleNode(const ros::NodeHandle& nh) :
       ManagedNode(nh)
-    {}
+    {
+    }
 
   } // namespace lifecycle
 } // namespace ros
