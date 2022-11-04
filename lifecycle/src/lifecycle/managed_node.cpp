@@ -32,6 +32,18 @@ namespace ros {
             lm_.start();
         }
     
+    const char* ManagedNode::get_name()
+    {
+     std::string name = ros::this_node::getName();
+     if(!name.empty())
+     {
+        if(name[0] == '/')
+          name = name.substr(1);
+     }
+     
+     return name.c_str();
+    }
+    
     bool ManagedNode::trigger_transition(ros::lifecycle::Transition _t)
     {
       switch(_t)

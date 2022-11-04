@@ -32,7 +32,7 @@ namespace ros { namespace lifecycle {
             ManagedNode(const ros::NodeHandle& nh);
             virtual ~ManagedNode(){};
             ros::NodeHandle getBaseNode() { return nh_; }
-            const char* get_name() { return ros::this_node::getName().c_str(); }
+            const char* get_name();
             std::string get_namespace() { return nh_.getNamespace(); }
             ros::Time now() { return ros::Time::now(); }
 
