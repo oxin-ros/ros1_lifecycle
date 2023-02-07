@@ -29,6 +29,8 @@
 #include <lifecycle_msgs/LifecycleAction.h>
 #include <lifecycle_msgs/Lifecycle.h>
 
+#include <mutex>
+
 namespace ros { namespace lifecycle {
 
         class LifecycleAPIException : public std::exception {
