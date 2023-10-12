@@ -24,3 +24,7 @@ generate_messages(
 catkin_package(
   CATKIN_DEPENDS lifecycle_msgs lifecycle_python rospy
 )
+
+install(PROGRAMS scripts/lifecycle_node_test.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
