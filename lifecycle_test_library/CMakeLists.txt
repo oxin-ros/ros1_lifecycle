@@ -22,7 +22,7 @@ generate_messages(
 )
 
 catkin_package(
-  CATKIN_DEPENDS lifecycle_msgs lifecycle_python rospy
+  CATKIN_DEPENDS lifecycle_msgs lifecycle_python message_runtime rospy std_msgs
 )
 
 install(PROGRAMS scripts/lifecycle_node_test.py
