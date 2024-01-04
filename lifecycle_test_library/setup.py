@@ -6,8 +6,7 @@ from catkin_pkg.python_setup import generate_distutils_setup
 # fetch values from package.xml
 setup_args = generate_distutils_setup(
     packages=['lifecycle_test_library'],
-    package_dir={'': 'src'},
-    scripts=['scripts/lifecycle_node_test.py']
+    package_dir={'': 'src'}
     )
 
 setup(**setup_args)
