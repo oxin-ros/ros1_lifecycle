@@ -4,7 +4,6 @@ project(lifecycle)
 find_package(catkin REQUIRED
   COMPONENTS
   roscpp
-  rostest
   rosunit
   actionlib
   lifecycle_msgs

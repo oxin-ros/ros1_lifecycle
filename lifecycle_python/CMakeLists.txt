@@ -6,7 +6,13 @@ find_package(catkin REQUIRED COMPONENTS rospy actionlib actionlib_msgs lifecycle
 catkin_python_setup()
 
 catkin_package(
-  CATKIN_DEPENDS actionlib lifecycle_msgs rospy
+  CATKIN_DEPENDS actionlib actionlib_msgs lifecycle_msgs rospy
+)
+
+install(
+  PROGRAMS
+  scripts/change_lifecycle.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 if(CATKIN_ENABLE_TESTING)
