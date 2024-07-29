@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(lifecycle)
 
-# C++ configs.
+## Compile as C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -43,6 +43,8 @@ add_executable(lifecycle_example_lcm examples/example_lifecycle_manager.cpp)
 add_executable(lifecycle_example_managed_node examples/example_managed_node.cpp)
 
 add_executable(lifecycle_example_client examples/example_lifecycle_client.cpp)
+
+add_executable(lifecycle_test_shared examples/test_shared.cpp)
 
 target_link_libraries(lifecycle
   ${catkin_LIBRARIES}
