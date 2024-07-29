@@ -18,9 +18,12 @@
 #ifndef LIFECYCLE_MANAGED_NODE_H
 #define LIFECYCLE_MANAGED_NODE_H
 
+#include <memory>
+
 #include <ros/ros.h>
 
-#include "manager.h"
+#include <lifecycle/lifecycle_model.h>
+#include <lifecycle/manager.h>
 
 namespace ros { namespace lifecycle {
         /**
@@ -30,7 +33,7 @@ namespace ros { namespace lifecycle {
     class ManagedNode : public std::enable_shared_from_this<ManagedNode> {
         public:
             ManagedNode(const ros::NodeHandle& nh);
-            virtual ~ManagedNode(){};
+            virtual ~ManagedNode() = default;
             ros::NodeHandle getBaseNode() { return nh_; }
             std::string get_name();
             std::string get_namespace() { return nh_.getNamespace(); }

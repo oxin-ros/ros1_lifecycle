@@ -20,17 +20,17 @@ class LifecyclePublisher {
 
   /** @brief Constructor */
  LifecyclePublisher( std::shared_ptr<ManagedNode> _node,
-		     std::string _topic_name) :
+		     std::string _topic_name, uint32_t queue_size, bool latch = false) :
   node_(_node),
   state_(State::UNCONFIGURED),
-  topic_name_(_topic_name)
- {
-   on_configure();
- }
+  topic_name_(_topic_name),
+  queue_size_(queue_size),
+  latch_(latch)
+ {}
 
   void on_configure()
   {
-    pub_ = node_->getBaseNode().advertise<T>(topic_name_, 10);
+    pub_ = node_->getBaseNode().advertise<T>(topic_name_, queue_size_, latch_);
     state_ = State::INACTIVE;
   }
   
@@ -62,8 +62,8 @@ class LifecyclePublisher {
 
   std::shared_ptr<ManagedNode> node_;
   std::string topic_name_;
-
-  
+  uint32_t queue_size_;
+  bool latch_{false};
  };
 
 } // namespace lifecycle
