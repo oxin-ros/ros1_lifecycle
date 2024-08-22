@@ -46,6 +46,7 @@ protected:
         _pub->on_activate();
         _timer->start();
 
+        ROS_INFO("Activated");
         return true;
     };
 
@@ -73,6 +74,7 @@ protected:
         _timer->stop();
         _server->shutdown();
 
+        ROS_INFO("Deactivated");
         return true;
     };
 
@@ -85,6 +87,7 @@ protected:
         _timer.reset();
         _server.reset();
 
+        ROS_INFO("Cleaned up");
         return true;
     };
 
@@ -106,11 +109,13 @@ private:
     {
         std_msgs::String msg;
         msg.data = "Hello, world!";
+        ROS_INFO("Publishing: [%s]", msg.data.c_str());
         _pub->publish(msg);
     }
 
-    void callback(const std_msgs::String::ConstPtr& msg)
-    {
+    void callback(const std_msgs::String::ConstPtr& msg) {
+        if (getCurrentState() != ros::lifecycle::State::ACTIVE)
+            return;
         ROS_INFO("I heard: [%s]", msg->data.c_str());
     }
 
@@ -138,7 +143,7 @@ int main(int argc, char* argv[])
     // the presence of a Manager.
     nh.setParam(PARAM_LIFECYCLE_MANAGEMENT, true);
 
-    ExampleManagedNode node(nh);
+    auto node = std::make_shared<ExampleManagedNode>(nh);
 
     ros::spin();
 }
