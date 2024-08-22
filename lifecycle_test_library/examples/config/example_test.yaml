@@ -4,5 +4,5 @@ timeout         : 3
 delay           : 1
 publications    : ['/My_Node/chatter']
 publishing_hz   : [10]
-subscriptions   : ['/noise']
+subscriptions   : ['/My_Node/noise']
 services        : ['/My_Node/example_service']

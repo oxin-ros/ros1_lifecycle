@@ -1,7 +1,7 @@
 ## Automated Test Library for Lifecycle Manager
 
 ### Concept
-This library provides methods to test your nodes configured by LifecycleManager. 
+This library provides methods to test your nodes configured by LifecycleManager.
 
 #### Transition Test
 The user node is transitioned between various states multiple times to check the robustness of the state changes.
@@ -25,6 +25,7 @@ In the ACTIVE state the node has to start publishing messages and respond to the
 In the FINALIZED state the node must not have any publishers, subscribers or services registered.
 
 ### Using the Library
+
 The library can be used inside unit tests for a particular node. Define an object of class LifecycleTestLibrary(component_fqn, pub, hz, sub, srv), and use the methods: test_transitions() and test_all_states for performing the tests.
 
 A python script ("lifecycle_node_test.py") is provided to test a node as a standalone option. If you would like to test only the state transitions you could run (rosrun) this script with node name as parameter.
@@ -36,6 +37,7 @@ For performing the complete test (state transitions and behaviour of node in eac
 For example please see: lifecycle_test_library/examples/
 
 ### Configuration
+
 The configuration file is a YAML file which looks as follows:
 
 ```yaml
@@ -53,7 +55,7 @@ services        : ['/Example_Node/add_two_ints']
 Name of your node that has to be tested
 
 #### states
-The sequence of the states that the node has to be tested for transitioning. For the state code lookup lifecycle_msg. 
+The sequence of the states that the node has to be tested for transitioning. For the state code lookup lifecycle_msg.
 
 #### timeout
 Maximum duration in seconds the node has to take to make the transition
@@ -74,12 +76,21 @@ The names of the Subscriptions by the node
 The services offered by the node
 
 ### Launch
-An example launch file: 
-```
+
+An example launch file:
+
+```XML
 <launch>
     <node pkg="lifecycle_test_library" type="lifecycle_node_test.py" name="Test_Node" output="screen" required="true">
         <rosparam command="load" file="$(find lifecycle_test_library)/examples/config/example_test.yaml"/>
     </node>
 
 </launch>
+```
+
+### Run
+
+```bash
+roslaunch lifecycle managed_node_client.launch
+roslaunch lifecycle_test_library lifecycle_test.launch
 ```

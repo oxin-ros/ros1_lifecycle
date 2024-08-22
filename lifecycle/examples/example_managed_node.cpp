@@ -28,15 +28,19 @@
 
 typedef ros::lifecycle::LifecyclePublisher<std_msgs::String> StringPublisher;
 
-class ExampleManagedNode : public ros::lifecycle::ManagedNode {
+class ExampleManagedNode : public ros::lifecycle::ManagedNode
+{
 public:
     //The node handle has to be private namespace, for all the lifecycle related topics to be unambiguous.
-    ExampleManagedNode(ros::NodeHandle& nh) : _nh(nh), ros::lifecycle::ManagedNode(nh) {
+    ExampleManagedNode(ros::NodeHandle& nh) : _nh(nh), ros::lifecycle::ManagedNode(nh)
+    {
+        ROS_INFO_STREAM("Starting " << ros::this_node::getName());
     }
 
 protected:
     // override must-have functions from managed node
-    bool onActivate() {
+    bool onActivate()
+    {
         ROS_INFO("Activating");
 
         _pub->on_activate();
@@ -46,12 +50,13 @@ protected:
     };
 
     // define other virtual methods
-    bool onConfigure() {
+    bool onConfigure()
+    {
         ROS_INFO("Configuring");
 
-        _pub = std::make_shared<StringPublisher>(shared_from_this(), "chatter", 10, false);
+        _pub = std::make_shared<StringPublisher>(this->getBaseNode(), "chatter", 10, false);
         _pub->on_configure();
-        _timer = std::make_shared<ros::Timer>(_nh.createTimer(ros::Duration(1.0), &ExampleManagedNode::timerCallback, this));
+        _timer = std::make_shared<ros::Timer>(_nh.createTimer(ros::Duration(1 / 10.0), &ExampleManagedNode::timerCallback, this));
         _timer->stop();
         _sub = std::make_shared<ros::Subscriber>(_nh.subscribe("noise", 10, &ExampleManagedNode::callback, this));
         _server = std::make_shared<ros::ServiceServer>(_nh.advertiseService("example_service", &ExampleManagedNode::serverCallback, this));
@@ -60,29 +65,19 @@ protected:
         return true;
     };
 
-    bool onDeactivate() {
+    bool onDeactivate()
+    {
         ROS_INFO("Deactivating");
 
         _pub->on_deactivate();
         _timer->stop();
-        _sub->shutdown();
         _server->shutdown();
 
         return true;
     };
 
-    bool onShutdown() {
-        ROS_INFO("Shutting down");
-
-        _pub = nullptr;
-        _timer = nullptr;
-        _sub = nullptr;
-        _server = nullptr;
-
-        return true;
-    };
-
-    bool onCleanup() {
+    bool onCleanup()
+    {
         ROS_INFO("Cleaning up");
 
         _pub.reset();
@@ -93,18 +88,34 @@ protected:
         return true;
     };
 
+    bool onShutdown()
+    {
+        ROS_INFO("Shutting down");
+
+        _pub = nullptr;
+        _timer = nullptr;
+        _sub->shutdown();
+        _sub = nullptr;
+        _server = nullptr;
+
+        return true;
+    };
+
 private:
-    void timerCallback(const ros::TimerEvent& event) {
+    void timerCallback(const ros::TimerEvent& event)
+    {
         std_msgs::String msg;
         msg.data = "Hello, world!";
         _pub->publish(msg);
     }
 
-    void callback(const std_msgs::String::ConstPtr& msg) {
+    void callback(const std_msgs::String::ConstPtr& msg)
+    {
         ROS_INFO("I heard: [%s]", msg->data.c_str());
     }
 
-    bool serverCallback(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res) {
+    bool serverCallback(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
+    {
         if (getCurrentState() != ros::lifecycle::State::ACTIVE)
             return false;
         res.success = true;
