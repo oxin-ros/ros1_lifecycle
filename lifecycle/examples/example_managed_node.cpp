@@ -113,7 +113,8 @@ private:
         _pub->publish(msg);
     }
 
-    void callback(const std_msgs::String::ConstPtr& msg) {
+    void callback(const std_msgs::String::ConstPtr& msg)
+    {
         if (getCurrentState() != ros::lifecycle::State::ACTIVE)
             return;
         ROS_INFO("I heard: [%s]", msg->data.c_str());
